@@ -1,0 +1,4 @@
+rootProject.name = 'activemq-monitoring-demo'
+include 'producer-app', 'consumer-app'
+include 'producer-app'
+include 'consumer-app'

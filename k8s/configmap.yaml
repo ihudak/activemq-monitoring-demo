@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: amq-demo-configmap
+  namespace: amq-demo
+data:
+  DT_AMQ_SERVER: "activemq-service" #.databases # if the DB is in the "databases" namespace
+  DT_AMQ_PORT: "61616"
+  DT_AMQ_PRODUCER: "clients-svc:81"
+  DT_AMQ_CONSUMER: "books-svc:82"
+  VERCALL_TIMEOUT: "240"
+  APP_NAME: "ActiveMQDemo"
+  SVC_SUFFIX: "dev"
+  SECURITY_CIRCLE: "live.mgd.amq"
+  MANAGEMENT_ZONE: "amq-demo"
+  OWNER_TEAM: "managed-pm"
+  OWNER: "ivan"
+  COST_CENTER: "TicketSales"
+  COST_PRODUCT: "TicketShop"
+  OTEL_JAVAAGENT_DEBUG: "true"
+  GIT_REPO: "https://github.com/ihudak/activemq-monitoring-demo"
+  DT_AMQ_DEMO_PROFILE: "stage" # prod | stage | dev -- logging levels -- prod:ERROR; stage:INFO; dev:DEBUG
+  ACTIVEMQ_BROKER_URL: "tcp://activemq-service:61616"
+  ACTIVEMQ_QUEUE: "demo.queue"
+

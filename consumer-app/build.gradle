@@ -1,0 +1,18 @@
+plugins {
+    id 'org.springframework.boot' version '3.3.4'
+    id 'io.spring.dependency-management'
+    id 'java'
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-activemq'
+    implementation "org.apache.activemq:activemq-client:${rootProject.ext.activemqClientVersion}"
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'jakarta.jms:jakarta.jms-api:3.0.0'  // <— required for jakarta.jms.ConnectionFactory
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+bootJar {
+    archiveFileName = 'consumer-app.jar'
+}

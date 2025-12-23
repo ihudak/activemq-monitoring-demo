@@ -1,0 +1,85 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: producer
+  namespace: amq-demo
+  labels:
+    app: producer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: producer
+  template:
+    metadata:
+      annotations:
+        metrics.dynatrace.com/path: /stats/prometheus
+        metrics.dynatrace.com/port: "15020"
+        metrics.dynatrace.com/scrape: "true"
+        metrics.dynatrace.com/secure: "false"
+      namespace: amq-demo
+      labels:
+        app: producer
+        app.kubernetes.io/version: 1.7.3
+        app.kubernetes.io/part-of: ActiveMQDemo
+    spec:
+      containers:
+        - name: producer
+          image: ghcr.io/ihudak/activemq-monitoring-demo-producer:latest
+          ports:
+            - containerPort: 8085
+            - containerPort: 5005
+          envFrom:
+            - configMapRef:
+                name: amq-demo-configmap
+            - secretRef:
+                name: amq-demo-secret
+          env:
+            - name: DT_RELEASE_VERSION
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.labels['app.kubernetes.io/version']
+            - name: DT_RELEASE_BUILD_VERSION
+              value: "2025-08-04-15:38:43"
+            - name: SERVICE_NAME
+              value: ActiveMQ-Producer-App
+            - name: SERVICE_FULL_NAME
+              value: "$(APP_NAME).$(SERVICE_NAME).$(SVC_SUFFIX)"
+            - name: DT_TAGS
+              value: "ActiveMQ-Producer-App MicroService=ActiveMQ.Producer"
+            - name: DT_CUSTOM_PROP
+              value: "custom.app.name=ActiveMQ-Producer,custom.microservice.name=amq-producer"
+            - name: OTEL_RESOURCE_ATTRIBUTES
+              value: "dt.security_circle=$(SECURITY_CIRCLE),dt.management_zone=$(MANAGEMENT_ZONE),dt.owner_team=$(OWNER_TEAM),dt.owner=$(OWNER),dt.cost.costcenter=$(COST_CENTER),dt.cost.product=$(COST_PRODUCT),my.resource.attribute=$(GIT_REPO)"
+            - name: DT_SERVICE_NAME
+              value: ActiveMQ.Producer
+            - name: DT_HOST_NAME_PREFIX
+              value: amq-producer
+            - name: SERVER_PORT
+              value: "8080"
+          resources:
+            limits:
+              cpu: 550m
+              memory: 1Gi
+            requests:
+              cpu: 550m
+              memory: 1Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: producer-svc
+  namespace: amq-demo
+spec:
+  selector:
+    app: producer
+  type: ClusterIP
+  ports:
+    - name: http
+      port: 81
+      protocol: TCP
+      targetPort: 8080
+    - name: debug
+      port: 5001
+      protocol: TCP
+      targetPort: 5005

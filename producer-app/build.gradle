@@ -1,0 +1,23 @@
+plugins {
+    id 'org.springframework.boot' version '3.3.4'
+    id 'io.spring.dependency-management'
+    id 'java'
+}
+
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-activemq'
+    implementation 'jakarta.jms:jakarta.jms-api:3.0.0'
+    // ActiveMQ Classic JMS client
+    implementation "org.apache.activemq:activemq-client:${rootProject.ext.activemqClientVersion}"
+
+    // Optional JSON serialization
+    implementation 'com.fasterxml.jackson.core:jackson-databind'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+bootJar {
+    archiveFileName = 'producer-app.jar'
+}
