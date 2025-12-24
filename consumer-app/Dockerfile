@@ -2,7 +2,7 @@ ARG VER=21
 ARG FLAVOR=noble
 ARG BASE_REPO=ghcr.io/ihudak
 
-ARG JAR_FILE=build/libs/*0.0.1-SNAPSHOT.jar
+ARG JAR_FILE=build/libs/consumer-app.jar
 
 FROM eclipse-temurin:${VER}-jdk-${FLAVOR}
 MAINTAINER dynatrace.com
