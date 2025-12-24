@@ -1,0 +1,29 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: amq-demo-ingress
+  namespace: amq-demo
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: amq-demo-fs.x86.demo.live
+      http:
+        paths:
+          - path: /api/messages/?(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: producer-svc
+                port:
+                  number: 81
+          - path: /?(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: activemq-service
+                port:
+                  number: 8161

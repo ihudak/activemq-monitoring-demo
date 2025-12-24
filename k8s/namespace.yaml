@@ -1,0 +1,14 @@
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: amq-demo
+  annotations:
+    dec.21/engineering.center: lemberg
+    dec.21/product: amq-demo
+    metadata.dynatrace.com/security: mgd.live.pm
+    metadata.dynatrace.com/dt.management_zone: amq-demo.mgd
+    metadata.dynatrace.com/dt.owner_team: mgd-pm
+    metadata.dynatrace.com/dt.owner: alex
+  labels:
+    name: amq-demo
+    metadata.dynatrace.com/cost: cost-fin-dep
