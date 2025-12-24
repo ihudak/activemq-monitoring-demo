@@ -4,14 +4,32 @@ plugins {
     id 'java'
 }
 
-dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-activemq'
-    implementation "org.apache.activemq:activemq-client:${rootProject.ext.activemqClientVersion}"
-    implementation 'org.springframework.boot:spring-boot-starter'
-    implementation 'jakarta.jms:jakarta.jms-api:3.0.0'  // <— required for jakarta.jms.ConnectionFactory
+//dependencies {
+//    implementation 'org.springframework.boot:spring-boot-starter-activemq'
+//    implementation "org.apache.activemq:activemq-client:${rootProject.ext.activemqClientVersion}"
+//    implementation 'org.springframework.boot:spring-boot-starter'
+//    implementation 'jakarta.jms:jakarta.jms-api:3.0.0'  // <— required for jakarta.jms.ConnectionFactory
+//
+//    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+//}
 
+dependencies {
+    // Keep Spring Boot JMS + ActiveMQ auto-config
+    implementation('org.springframework.boot:spring-boot-starter-activemq') {
+        // prevent pulling the old javax client
+        exclude group: 'org.apache.activemq', module: 'activemq-client'
+    }
+
+    // Use Jakarta client (works with ActiveMQ 5.x brokers remotely)
+    implementation 'org.apache.activemq:activemq-client-jakarta:5.18.6'
+
+    // Optional (pulled transitively, but OK to keep explicit)
+    implementation 'jakarta.jms:jakarta.jms-api:3.1.0'
+
+    implementation 'org.springframework.boot:spring-boot-starter'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
+
 
 bootJar {
     archiveFileName = 'consumer-app.jar'

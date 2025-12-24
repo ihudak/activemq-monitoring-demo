@@ -27,7 +27,7 @@ spec:
         - name: consumer
           image: ghcr.io/ihudak/activemq-monitoring-demo-consumer:latest
           ports:
-            - containerPort: 8086
+            - containerPort: 8080
             - containerPort: 5005
           envFrom:
             - configMapRef:
