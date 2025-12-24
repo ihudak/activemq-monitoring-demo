@@ -11,6 +11,7 @@ MAINTAINER dynatrace.com
 #ENV LD_PRELOAD="/opt/dynatrace/oneagent/agent/lib64/liboneagentproc.so"
 RUN mkdir -p /opt/app
 COPY ${JAR_FILE} /opt/app/app.jar
+RUN ls -la /opt/app
 ENV JAVA_TOOL_OPTIONS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005"
 ENV DOCKER_VER="1.7.3"
 ENV SERVICE_FULL_NAME=ActiveMQ-Consumer-App
