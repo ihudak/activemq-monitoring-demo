@@ -1,7 +1,7 @@
 version: "3.8"
 services:
   activemq:
-    image: rmohr/activemq:5.16.6
+    image: rmohr/activemq:5.15.9
     container_name: activemq
     ports:
       - "61616:61616"

@@ -17,7 +17,8 @@ subprojects {
     // Spring Boot plugin applied per module (apps only)
 
     group = 'eu.dec21'
-    version = '1.0-SNAPSHOT'
+    version = '0.0.1-SNAPSHOT'
+    sourceCompatibility = '21'
 
 
     java {
