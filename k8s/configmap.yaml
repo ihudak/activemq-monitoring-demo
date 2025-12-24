@@ -6,8 +6,8 @@ metadata:
 data:
   DT_AMQ_SERVER: "activemq-service" #.databases # if the DB is in the "databases" namespace
   DT_AMQ_PORT: "61616"
-  DT_AMQ_PRODUCER: "clients-svc:81"
-  DT_AMQ_CONSUMER: "books-svc:82"
+  DT_AMQ_PRODUCER: "producer-svc:81"
+  DT_AMQ_CONSUMER: "consumer-svc:82"
   VERCALL_TIMEOUT: "240"
   APP_NAME: "ActiveMQDemo"
   SVC_SUFFIX: "dev"
@@ -22,4 +22,4 @@ data:
   DT_AMQ_DEMO_PROFILE: "stage" # prod | stage | dev -- logging levels -- prod:ERROR; stage:INFO; dev:DEBUG
   ACTIVEMQ_BROKER_URL: "tcp://activemq-service:61616"
   ACTIVEMQ_QUEUE: "demo.queue"
-
+  POSTCALL_TIMEOUT: "60"

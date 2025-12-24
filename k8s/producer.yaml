@@ -64,6 +64,36 @@ spec:
             requests:
               cpu: 550m
               memory: 1Gi
+      initContainers:
+        - name: messagebrokercaller
+          image: alpine:latest
+          restartPolicy: Always
+          envFrom:
+            - configMapRef:
+                name: amq-demo-configmap
+          resources:
+            limits:
+              cpu: 100m
+              memory: 512Mi
+            requests:
+              cpu: 100m
+              memory: 512Mi
+          command:
+            - sh
+            - -c
+            - |
+              echo "Init container to ensure message broker is reachable before starting the producer application." && \
+              apk add --no-cache coreutils sed util-linux curl && \
+              curl -o /opt/words https://raw.githubusercontent.com/dwyl/english-words/master/words.txt && \
+              sleep 60 && \
+              while true; do
+                echo "$(date +"%Y-%m-%d-%H:%M:%S")"
+                echo "Waiting for $POSTCALL_TIMEOUT seconds..."
+                sleep $POSTCALL_TIMEOUT
+                MESSAGE=$(shuf -n 8 /opt/words | tr '\n' ' ' | sed 's/^./\U&/')
+                echo "Sending message: $MESSAGE"
+                curl -X POST http://$DT_AMQ_PRODUCER/api/messages -H "Content-Type: text/plain" -d "$MESSAGE"
+              done
 ---
 apiVersion: v1
 kind: Service
