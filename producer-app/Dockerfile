@@ -1,15 +1,12 @@
 ARG VER=21
 ARG FLAVOR=noble
-ARG BASE_REPO=ghcr.io/ihudak
-
-ARG JAR_FILE=build/libs/producer-app.jar
 
 FROM eclipse-temurin:${VER}-jdk-${FLAVOR}
 MAINTAINER dynatrace.com
 
-#COPY --from=pae32231.dev.dynatracelabs.com/linux/oneagent-codemodules-musl:java / /
-#ENV LD_PRELOAD="/opt/dynatrace/oneagent/agent/lib64/liboneagentproc.so"
+ARG BASE_REPO=ghcr.io/ihudak
 RUN mkdir -p /opt/app
+ARG JAR_FILE=build/libs/producer-app.jar
 COPY ${JAR_FILE} /opt/app/app.jar
 RUN ls -la /opt/app
 ENV JAVA_TOOL_OPTIONS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005"
